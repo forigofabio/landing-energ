@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="it" class="dark">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#0e0e0e"/>
+<title>FORIGO ENER-G — Il futuro dell'agricoltura è elettrico</title>
+<meta name="description" content="ENERG è la prima macchina agricola 100% elettrica di Forigo Roter Italia. Zero emissioni, navigazione autonoma RTK, Quantix Technology."/>
+<meta property="og:title" content="FORIGO ENER-G"/>
+<meta property="og:description" content="Il futuro dell'agricoltura è elettrico."/>
+<meta property="og:image" content="assets/img/hero-machine.png"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;500;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode:"class",
+  theme:{ extend:{
+    colors:{
+      "sc-low":"#1c1b1b","sc-mid":"#201f1f","sc-high":"#2a2a2a",
+      "sc-highest":"#353534","sc-lowest":"#0e0e0e",
+      "surface":"#131313","on-surface":"#e5e2e1",
+      "primary":"#e00719","primary-fg":"#fff2f0","secondary":"#c7c6c6",
+    },
+    fontFamily:{ sans:["Manrope","sans-serif"] },
+    borderRadius:{ xl:"2rem","2xl":"3rem",full:"9999px" },
+  }}
+}
+</script>
+<style>
+  *{font-family:'Manrope',sans-serif;box-sizing:border-box}
+  html,body{overflow-x:hidden;max-width:100vw;scroll-behavior:smooth}
+  body{background:#131313;color:#e5e2e1;padding-bottom:84px} /* space for sticky CTA */
+  @media (min-width:1024px){ body{padding-bottom:0} }
+  img,video,iframe{max-width:100%;height:auto;display:block}
+  h1,h2,h3{font-weight:900;letter-spacing:-.03em}
+  h2,h3{overflow-wrap:break-word}
+  p,label{overflow-wrap:break-word}
+
+  .msymbol{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;user-select:none}
+  .lang-btn{transition:color .2s}
+  .lang-btn.active{color:#e00719}
+
+  /* NAV */
+  #navbar{transition:background .4s ease;backdrop-filter:blur(14px)}
+  #navbar.scrolled{background:rgba(13,13,13,.92)!important}
+
+  /* SPLASH — Forigo top · Machine center · ENERG bottom · full viewport */
+  #splash{position:fixed;inset:0;z-index:100;background:#0b0b0b;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),24px) 20px max(env(safe-area-inset-bottom),24px);transition:opacity .9s ease,visibility .9s;overflow:hidden}
+  #splash.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .splash-glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:130vw;height:130vw;max-width:1100px;max-height:1100px;border-radius:9999px;background:radial-gradient(circle,rgba(224,7,25,.4) 0%,rgba(224,7,25,0) 60%);filter:blur(50px);animation:splash-pulse 2.6s ease-in-out infinite;pointer-events:none;z-index:0}
+  @keyframes splash-pulse{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.92)}50%{opacity:.95;transform:translate(-50%,-50%) scale(1.08)}}
+
+  .splash-forigo{position:relative;z-index:2;width:100%;display:flex;justify-content:center;opacity:0;transform:translateY(-14px);animation:splash-fade-down .9s ease-out .1s forwards}
+  .splash-forigo img{width:min(85vw,640px);height:auto;display:block}
+  @keyframes splash-fade-down{to{opacity:1;transform:translateY(0)}}
+
+  .splash-machine{position:relative;z-index:2;width:min(92vw,720px);max-height:42vh;object-fit:contain;opacity:0;transform:scale(.78);filter:blur(18px);animation:splash-machine-in 1.4s cubic-bezier(.2,.8,.2,1) .35s forwards}
+  @keyframes splash-machine-in{
+    0%{opacity:0;transform:scale(.78);filter:blur(18px)}
+    100%{opacity:1;transform:scale(1);filter:blur(0)}
+  }
+
+  .splash-energ{position:relative;z-index:2;width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;transform:translateY(14px);animation:splash-fade-up 1s ease-out 1.1s forwards}
+  .splash-energ img{width:min(85vw,640px);height:auto;display:block}
+  .splash-energ .tag{font-size:.65rem;font-weight:900;letter-spacing:.45em;text-transform:uppercase;color:#e00719;opacity:0;animation:splash-fade-up .8s ease-out 1.7s forwards}
+  @keyframes splash-fade-up{to{opacity:1;transform:translateY(0)}}
+
+  /* HERO (clean, no machine overlap on mobile) */
+  .hero{min-height:100dvh;min-height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:96px 20px 40px}
+  .hero-bg{position:absolute;inset:0;pointer-events:none;z-index:0}
+  .hero-glow{position:absolute;width:120vw;height:120vw;max-width:1100px;max-height:1100px;border-radius:9999px;background:rgba(224,7,25,.10);filter:blur(120px);top:-20%;right:-40%;animation:glow-pulse 6s ease-in-out infinite}
+  @keyframes glow-pulse{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.65;transform:scale(1.12)}}
+  .hero-machine{display:none}
+  .hero-content{position:relative;z-index:2;width:100%}
+  .hero-title{font-size:clamp(1.6rem,7.6vw,4.5rem);line-height:1;color:#fff;font-weight:900;letter-spacing:-.04em}
+  .hero-title .line{display:block;white-space:nowrap}
+  .hero-title .accent{color:#e00719}
+  .scroll-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;color:#9ca3af;font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;font-weight:900;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.7;animation:scroll-bounce 2s ease-in-out infinite}
+  @keyframes scroll-bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+  @media (min-width:1024px){
+    .hero{flex-direction:row;align-items:center;justify-content:space-between;padding:96px 64px 0;gap:40px}
+    .hero-machine{display:block;position:static;width:auto;max-width:55vw;flex:1;animation:float-h 6s ease-in-out infinite;filter:drop-shadow(0 30px 60px rgba(224,7,25,.25))}
+    @keyframes float-h{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    .hero-content{padding-top:0;flex:1;max-width:620px}
+    .scroll-hint{display:none}
+  }
+
+  /* CHIPS */
+  .chip{background:#2a2a2a;border-radius:999px;padding:.55rem 1rem;display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;font-weight:900;text-transform:uppercase;letter-spacing:.18em;color:#fff;white-space:nowrap}
+  .chip .msymbol{color:#e00719;font-size:1rem}
+
+  /* TICKER */
+  @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .ticker{background:#e00719;overflow:hidden;position:relative;z-index:5}
+  .ticker-inner{display:flex;animation:ticker 22s linear infinite;white-space:nowrap;padding:14px 0}
+  .ticker-inner span{color:#fff;font-weight:900;text-transform:uppercase;letter-spacing:.25em;font-size:.72rem;padding:0 1.5rem}
+  .ticker-inner .dot{color:rgba(255,255,255,.45)}
+
+  /* SECTIONS */
+  section.blk{padding:64px 20px;position:relative}
+  @media (min-width:768px){ section.blk{padding:96px 32px} }
+  .section-eyebrow{color:#e00719;font-size:.65rem;font-weight:900;letter-spacing:.4em;text-transform:uppercase;display:block;margin-bottom:.75rem}
+  .section-h2{font-size:clamp(1.75rem,6vw,3rem);color:#fff;font-weight:900;letter-spacing:-.03em;line-height:1.05}
+
+  /* CARDS */
+  .card{background:#2a2a2a;border-radius:24px;padding:28px;position:relative;overflow:hidden}
+  .card.red{background:#e00719}
+
+  /* SPECS */
+  .spec-row{display:flex;justify-content:space-between;align-items:center;padding:14px 8px;border-bottom:1px solid rgba(255,255,255,.06)}
+  .spec-row:last-child{border-bottom:none}
+  .spec-key{font-size:.7rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:#9ca3af}
+  .spec-val{font-size:.85rem;font-weight:900;color:#fff}
+
+  /* GALLERY SWIPE */
+  .gallery-scroll{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px;margin:0 -20px;padding-left:20px;padding-right:20px}
+  .gallery-scroll::-webkit-scrollbar{display:none}
+  .gallery-scroll{scrollbar-width:none}
+  .gallery-item{flex:0 0 82%;max-width:420px;aspect-ratio:4/3;border-radius:20px;overflow:hidden;scroll-snap-align:center;position:relative}
+  .gallery-item img{width:100%;height:100%;object-fit:cover}
+  @media (min-width:1024px){
+    .gallery-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:0;padding:0}
+    .gallery-item{flex:none;aspect-ratio:4/3;max-width:none}
+  }
+
+  /* VIDEO */
+  .video-wrapper{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:24px}
+  .video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+  /* FORM */
+  .form-card{background:#2a2a2a;border-radius:24px;padding:20px}
+  @media (min-width:768px){ .form-card{padding:36px} }
+  .field-label{display:block;font-size:.65rem;font-weight:900;letter-spacing:.25em;text-transform:uppercase;color:#d1d5db;margin-bottom:.5rem}
+  .field{width:100%;background:#0e0e0e;border:1px solid transparent;border-radius:9999px;padding:16px 22px;font-size:.9rem;font-weight:700;color:#fff;transition:all .2s}
+  .field:focus{outline:none;border-color:#e00719;box-shadow:0 0 0 3px rgba(224,7,25,.25)}
+  textarea.field{border-radius:20px;resize:none}
+  select.field{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c7c6c6' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 22px center}
+
+  /* CTA */
+  .cta{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:#e00719;color:#fff;padding:18px 32px;border-radius:9999px;font-weight:900;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;transition:all .2s;box-shadow:0 10px 30px rgba(224,7,25,.35)}
+  .cta:active{transform:scale(.97)}
+  .cta:hover{filter:brightness(1.1)}
+  .cta-ghost{background:#2a2a2a;box-shadow:none;color:#fff}
+
+  /* STICKY BOTTOM CTA (mobile) */
+  .sticky-cta{position:fixed;left:12px;right:12px;bottom:12px;z-index:40;background:linear-gradient(135deg,#e00719 0%,#c1051a 100%);color:#fff;padding:16px;border-radius:9999px;font-weight:900;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;text-align:center;box-shadow:0 14px 40px rgba(224,7,25,.5),0 2px 0 rgba(255,255,255,.08) inset;transition:opacity .3s,transform .3s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+  .sticky-cta.hide{opacity:0;pointer-events:none;transform:translateY(20px)}
+  @media (min-width:1024px){ .sticky-cta{display:none} }
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* MOBILE MENU */
+  #mobileMenu{transform:translateY(-20px);opacity:0;pointer-events:none;transition:all .25s}
+  #mobileMenu.open{transform:translateY(0);opacity:1;pointer-events:auto}
+</style>
+</head>
+<body>
+
+<!-- ═══ SPLASH INTRO ═══ -->
+<div id="splash" aria-hidden="true">
+  <div class="splash-glow"></div>
+  <div class="splash-forigo">
+    <img src="assets/img/logo-forigo.png" alt="Forigo"/>
+  </div>
+  <img src="assets/img/hero-machine.png" alt="ENERG Machine" class="splash-machine"/>
+  <div class="splash-energ">
+    <img src="assets/img/logo-energ.png" alt="ENERG"/>
+    <span class="tag">PROJECT</span>
+  </div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-screen-xl mx-auto px-5 py-3 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2">
+      <img src="assets/img/logo-forigo.png" alt="Forigo" class="h-6 w-auto"/>
+      <span class="text-zinc-600 font-thin text-lg">×</span>
+      <img src="assets/img/logo-energ.png" alt="ENERG" class="h-5 w-auto"/>
+    </a>
+    <div class="hidden lg:flex items-center gap-8">
+      <a href="#macchina"   class="text-secondary hover:text-white font-bold uppercase tracking-widest text-xs" data-it="La Macchina" data-en="The Machine">La Macchina</a>
+      <a href="#specifiche" class="text-secondary hover:text-white font-bold uppercase tracking-widest text-xs" data-it="Specifiche"  data-en="Specs">Specifiche</a>
+      <a href="#video"      class="text-secondary hover:text-white font-bold uppercase tracking-widest text-xs" data-it="Video"        data-en="Video">Video</a>
+    </div>
+    <div class="flex items-center gap-3 lg:hidden">
+      <div class="flex items-center gap-1 text-xs font-black tracking-widest uppercase">
+        <button onclick="setLang('it')" class="lang-btn active" id="btn-it">IT</button>
+        <span class="text-zinc-500">|</span>
+        <button onclick="setLang('en')" class="lang-btn" id="btn-en">EN</button>
+      </div>
+      <button id="menuBtn" onclick="toggleMenu()" class="text-white" aria-label="Menu">
+        <span class="msymbol text-2xl" id="menuIcon">menu</span>
+      </button>
+    </div>
+    <div class="hidden lg:flex items-center gap-2 text-xs font-black tracking-widest uppercase ml-4">
+      <button onclick="setLang('it')" class="lang-btn active" id="btn-it-desk">IT</button>
+      <span class="text-zinc-500">|</span>
+      <button onclick="setLang('en')" class="lang-btn" id="btn-en-desk">EN</button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="lg:hidden bg-sc-lowest px-5 py-4 space-y-3 border-t border-white/5">
+    <a href="#macchina"   onclick="toggleMenu()" class="block text-secondary font-bold uppercase tracking-widest text-sm" data-it="La Macchina" data-en="The Machine">La Macchina</a>
+    <a href="#specifiche" onclick="toggleMenu()" class="block text-secondary font-bold uppercase tracking-widest text-sm" data-it="Specifiche"  data-en="Specs">Specifiche</a>
+    <a href="#video"      onclick="toggleMenu()" class="block text-secondary font-bold uppercase tracking-widest text-sm" data-it="Video"       data-en="Video">Video</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <div class="hero-glow"></div>
+  </div>
+  <img src="assets/img/hero-machine.png" alt="ENERG Machine" class="hero-machine"/>
+
+  <div class="hero-content reveal">
+    <div class="flex items-center gap-3 mb-5">
+      <img src="assets/img/logo-forigo.png" alt="Forigo" class="h-10 md:h-16 w-auto"/>
+      <span class="text-zinc-600 font-thin text-2xl">×</span>
+      <img src="assets/img/logo-energ.png" alt="ENERG" class="h-10 md:h-16 w-auto"/>
+    </div>
+    <span class="inline-block text-[10px] font-black tracking-[.35em] uppercase text-primary bg-primary/10 px-4 py-1.5 rounded-full mb-4">PROJECT: ENERG</span>
+    <h1 class="hero-title mb-5">
+      <span class="line" data-it="IL FUTURO" data-en="THE FUTURE">IL FUTURO</span>
+      <span class="line" data-it="DELL'AGRICOLTURA" data-en="OF AGRICULTURE">DELL'AGRICOLTURA</span>
+      <span class="line accent" data-it="È ELETTRICO" data-en="IS ELECTRIC">È ELETTRICO</span>
+    </h1>
+    <p class="text-secondary text-sm md:text-base leading-relaxed max-w-lg mb-6"
+       data-it="Zero emissioni. Navigazione autonoma. ENERG è la prima macchina agricola 100% elettrica Forigo con tecnologia Quantix."
+       data-en="Zero emissions. Autonomous navigation. ENERG is the first Forigo 100% electric agricultural machine with Quantix technology.">
+      Zero emissioni. Navigazione autonoma. ENERG è la prima macchina agricola 100% elettrica Forigo con tecnologia Quantix.
+    </p>
+    <div class="flex flex-wrap gap-2 mb-7">
+      <span class="chip"><span class="msymbol">bolt</span>100% Elettrico</span>
+      <span class="chip"><span class="msymbol">sensors</span>RTK GNSS</span>
+      <span class="chip"><span class="msymbol">eco</span>0 g CO₂</span>
+    </div>
+    <div class="flex gap-3 flex-wrap">
+      <a href="#video" class="cta cta-ghost">
+        <span class="msymbol text-base" style="color:#e00719">play_circle</span>
+        <span data-it="Guarda il video" data-en="Watch video">Guarda il video</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TICKER ═══ -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span data-it="ZERO EMISSIONI" data-en="ZERO EMISSIONS">ZERO EMISSIONI</span><span class="dot">✦</span>
+    <span data-it="NAVIGAZIONE AUTONOMA" data-en="AUTONOMOUS NAVIGATION">NAVIGAZIONE AUTONOMA</span><span class="dot">✦</span>
+    <span>QUANTIX TECHNOLOGY</span><span class="dot">✦</span>
+    <span>IP69K</span><span class="dot">✦</span>
+    <span data-it="AGRICOLTURA 4.0" data-en="AGRICULTURE 4.0">AGRICOLTURA 4.0</span><span class="dot">✦</span>
+    <span>FORIGO ROTER ITALIA</span><span class="dot">✦</span>
+    <span data-it="ZERO EMISSIONI" data-en="ZERO EMISSIONS">ZERO EMISSIONI</span><span class="dot">✦</span>
+    <span data-it="NAVIGAZIONE AUTONOMA" data-en="AUTONOMOUS NAVIGATION">NAVIGAZIONE AUTONOMA</span><span class="dot">✦</span>
+    <span>QUANTIX TECHNOLOGY</span><span class="dot">✦</span>
+    <span>IP69K</span><span class="dot">✦</span>
+    <span data-it="AGRICOLTURA 4.0" data-en="AGRICULTURE 4.0">AGRICOLTURA 4.0</span><span class="dot">✦</span>
+    <span>FORIGO ROTER ITALIA</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<section id="macchina" class="blk" style="background:#0e0e0e">
+  <div class="max-w-screen-xl mx-auto">
+    <div class="reveal mb-10">
+      <span class="section-eyebrow" data-it="Precisione Ingegneristica" data-en="Engineered Precision">Precisione Ingegneristica</span>
+      <h2 class="section-h2" data-it="Scopri ENERG" data-en="Discover ENERG">Scopri ENERG</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="card reveal">
+        <span class="msymbol text-primary" style="font-size:2.5rem">bolt</span>
+        <h3 class="text-lg font-black text-white mt-6 mb-2" data-it="Nucleo Elettrico" data-en="Electric Core">Nucleo Elettrico</h3>
+        <p class="text-secondary text-sm" data-it="Powertrain elettrico ad alta efficienza con zero emissioni operative e lunga autonomia sul campo." data-en="High-efficiency electric powertrain with zero operational emissions.">Powertrain elettrico ad alta efficienza con zero emissioni operative e lunga autonomia sul campo.</p>
+      </div>
+      <div class="card reveal relative md:col-span-2" style="min-height:260px;padding:0">
+        <img src="assets/img/energ-field-wide.jpg" alt="ENERG al lavoro" class="absolute inset-0 w-full h-full object-cover opacity-55"/>
+        <div class="absolute inset-0" style="background:linear-gradient(to top,#0e0e0e 10%,rgba(14,14,14,.3) 60%,transparent)"></div>
+        <div class="relative z-10 p-7 h-full flex flex-col justify-end" style="min-height:260px">
+          <span class="bg-primary text-white text-[10px] font-black tracking-widest uppercase px-3 py-1.5 rounded-full w-fit mb-3" data-it="Sul campo" data-en="In the Field">Sul campo</span>
+          <h3 class="text-xl font-black text-white mb-1" data-it="Navigazione di Precisione" data-en="Precision Navigation">Navigazione di Precisione</h3>
+          <p class="text-secondary text-sm max-w-md" data-it="Sistema RTK GNSS per lavorazioni precise al centimetro, anche in modalità autonoma." data-en="RTK GNSS system for centimeter-precise operations, autonomous mode included.">Sistema RTK GNSS per lavorazioni precise al centimetro, anche in modalità autonoma.</p>
+        </div>
+      </div>
+      <div class="card reveal md:col-span-2">
+        <div class="flex gap-2 flex-wrap mb-6">
+          <span class="chip">IP69K</span>
+          <span class="chip" data-it="100% Elettrico" data-en="100% Electric">100% Elettrico</span>
+          <span class="chip">Quantix</span>
+        </div>
+        <div class="flex items-end justify-between gap-4">
+          <h3 class="text-2xl font-black text-white" data-it="Robustezza Industriale" data-en="Industrial Toughness">Robustezza Industriale</h3>
+          <img src="assets/img/energ-render-small.png" alt="ENERG render" class="h-24 md:h-32 object-contain opacity-90"/>
+        </div>
+      </div>
+      <div class="card red reveal">
+        <span class="msymbol text-white" style="font-size:2.5rem">cloud_sync</span>
+        <h3 class="text-lg font-black text-white mt-6 mb-2" data-it="Controllo Cloud" data-en="Cloud Command">Controllo Cloud</h3>
+        <p class="text-white/85 text-sm" data-it="Monitoraggio e gestione remota della macchina in tempo reale." data-en="Real-time remote monitoring and machine management.">Monitoraggio e gestione remota della macchina in tempo reale.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SPECS ═══ -->
+<section id="specifiche" class="blk">
+  <div class="max-w-screen-xl mx-auto flex flex-col lg:flex-row gap-12 items-center">
+    <div class="reveal flex-1">
+      <img src="assets/img/energ-detail.png" alt="ENERG detail" class="w-full max-w-md mx-auto" style="filter:drop-shadow(0 20px 60px rgba(224,7,25,.2))"/>
+    </div>
+    <div class="reveal flex-1 w-full">
+      <span class="section-eyebrow" data-it="Dati Tecnici" data-en="Technical Data">Dati Tecnici</span>
+      <h2 class="section-h2 mb-6" data-it="Specifiche ENERG" data-en="ENERG Specs">Specifiche ENERG</h2>
+      <div class="bg-sc-high rounded-2xl p-4 mb-6">
+        <div class="spec-row"><span class="spec-key" data-it="Alimentazione" data-en="Power Source">Alimentazione</span><span class="spec-val">100% Elettrico</span></div>
+        <div class="spec-row"><span class="spec-key" data-it="Navigazione" data-en="Navigation">Navigazione</span><span class="spec-val">RTK GNSS</span></div>
+        <div class="spec-row"><span class="spec-key" data-it="Protezione" data-en="Protection">Protezione</span><span class="spec-val">IP69K</span></div>
+        <div class="spec-row"><span class="spec-key" data-it="Tecnologia" data-en="Technology">Tecnologia</span><span class="spec-val">Quantix</span></div>
+        <div class="spec-row"><span class="spec-key" data-it="Emissioni CO₂" data-en="CO₂ Emissions">Emissioni CO₂</span><span class="spec-val" style="color:#e00719">0 g/km</span></div>
+      </div>
+      <p class="text-xs text-zinc-400 italic" data-it="⚙ Dati tecnici completi riservati — la scheda tecnica sarà inviata agli iscritti." data-en="⚙ Complete technical data reserved — datasheet will be sent to subscribers.">⚙ Dati tecnici completi riservati — la scheda tecnica sarà inviata agli iscritti.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALLERY ═══ -->
+<section class="blk" style="background:#0e0e0e">
+  <div class="max-w-screen-xl mx-auto">
+    <div class="reveal mb-8">
+      <span class="section-eyebrow" data-it="Sul Campo" data-en="In the Field">Sul Campo</span>
+      <h2 class="section-h2" data-it="ENERG al Lavoro" data-en="ENERG at Work">ENERG al Lavoro</h2>
+    </div>
+    <div class="gallery-scroll reveal">
+      <div class="gallery-item"><img src="assets/img/energ-field-wide.jpg" alt="ENERG sul campo"/></div>
+      <div class="gallery-item"><img src="assets/img/energ-lavorazione.jpg" alt="ENERG lavorazione"/></div>
+      <div class="gallery-item"><img src="assets/img/energ-autonomo.jpg" alt="ENERG autonomo"/></div>
+    </div>
+    <p class="lg:hidden text-[10px] text-zinc-500 uppercase tracking-[.3em] text-center mt-4" data-it="← scorri →" data-en="← swipe →">← scorri →</p>
+  </div>
+</section>
+
+<!-- ═══ VIDEO ═══ -->
+<section id="video" class="blk relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:rgba(224,7,25,.03);transform:skewY(-2deg)"></div>
+  <div class="max-w-screen-xl mx-auto relative z-10">
+    <div class="reveal text-center mb-8">
+      <span class="section-eyebrow" data-it="In Azione" data-en="In Action">In Azione</span>
+      <h2 class="section-h2" data-it="ENERG in Movimento" data-en="ENERG in Motion">ENERG in Movimento</h2>
+    </div>
+    <div class="reveal video-wrapper">
+      <iframe src="https://www.youtube-nocookie.com/embed/M0JwmwVc8CM?rel=0"
+              title="ENERG — Forigo Roter Italia"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FORM ═══ -->
+<section id="registrati" class="blk relative overflow-hidden" style="background:#0e0e0e">
+  <div class="absolute top-0 right-0 w-96 h-96 pointer-events-none" style="background:rgba(224,7,25,.08);filter:blur(100px);border-radius:9999px"></div>
+  <div class="max-w-2xl mx-auto relative z-10">
+    <div class="reveal text-center mb-8">
+      <span class="section-eyebrow" data-it="Accesso Esclusivo" data-en="Exclusive Access">Accesso Esclusivo</span>
+      <h2 class="section-h2 mb-4" data-it="RESTA IN CONTATTO" data-en="STAY IN TOUCH">RESTA IN CONTATTO</h2>
+      <p class="text-secondary text-sm max-w-md mx-auto"
+         data-it="Lasciaci i tuoi contatti: riceverai aggiornamenti esclusivi, scheda tecnica e inviti alle demo in campo."
+         data-en="Leave your contacts: you'll receive exclusive updates, the datasheet and invites to field demos.">
+        Lasciaci i tuoi contatti: riceverai aggiornamenti esclusivi, scheda tecnica e inviti alle demo in campo.
+      </p>
+    </div>
+
+    <div class="form-card reveal">
+      <div id="formArea">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="md:col-span-2">
+            <label class="field-label" data-it="Nome e Cognome *" data-en="Full Name *">Nome e Cognome *</label>
+            <input id="f_name" type="text" class="field" data-placeholder-it="Mario Rossi" data-placeholder-en="John Smith" placeholder="Mario Rossi"/>
+          </div>
+          <div>
+            <label class="field-label" data-it="Azienda *" data-en="Company *">Azienda *</label>
+            <input id="f_company" type="text" class="field" placeholder="Az. Agr. Rossi"/>
+          </div>
+          <div>
+            <label class="field-label" data-it="Email *" data-en="Email *">Email *</label>
+            <input id="f_email" type="email" class="field" placeholder="mario@azienda.it" inputmode="email"/>
+          </div>
+          <div>
+            <label class="field-label" data-it="Telefono" data-en="Phone">Telefono</label>
+            <input id="f_phone" type="tel" class="field" placeholder="+39 333 1234567" inputmode="tel"/>
+          </div>
+          <div>
+            <label class="field-label" data-it="Ruolo" data-en="Role">Ruolo</label>
+            <select id="f_role" class="field">
+              <option value="" data-it="Seleziona..." data-en="Select...">Seleziona...</option>
+              <option value="titolare" data-it="Titolare / Imprenditore" data-en="Owner / Farmer">Titolare / Imprenditore</option>
+              <option value="agronomo" data-it="Agronomo / Tecnico" data-en="Agronomist / Technician">Agronomo / Tecnico</option>
+              <option value="contoterzista" data-it="Contoterzista" data-en="Contractor">Contoterzista</option>
+              <option value="distributore" data-it="Distributore / Dealer" data-en="Dealer / Distributor">Distributore / Dealer</option>
+              <option value="altro" data-it="Altro" data-en="Other">Altro</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" data-it="Ettari Coltivati" data-en="Cultivated Hectares">Ettari Coltivati</label>
+            <select id="f_hectares" class="field">
+              <option value="">—</option>
+              <option value="<50">&lt; 50 ha</option>
+              <option value="50-200">50–200 ha</option>
+              <option value="200-500">200–500 ha</option>
+              <option value=">500">&gt; 500 ha</option>
+            </select>
+          </div>
+          <div class="md:col-span-2">
+            <label class="field-label" data-it="Coltura Principale" data-en="Main Crop">Coltura Principale</label>
+            <input id="f_crop" type="text" class="field" data-placeholder-it="es. Mais, Frumento, Vite..." data-placeholder-en="e.g. Corn, Wheat, Vineyard..." placeholder="es. Mais, Frumento, Vite..."/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="field-label" data-it="Note / Domande" data-en="Notes / Questions">Note / Domande</label>
+            <textarea id="f_notes" rows="3" class="field" data-placeholder-it="Scrivi qui le tue domande..." data-placeholder-en="Write your questions here..." placeholder="Scrivi qui le tue domande..."></textarea>
+          </div>
+        </div>
+
+        <label for="f_privacy" class="flex items-start gap-3 mt-5 cursor-pointer select-none">
+          <input id="f_privacy" type="checkbox" class="mt-1 accent-red-600 w-4 h-4 cursor-pointer flex-shrink-0"/>
+          <span class="text-xs text-zinc-400 leading-relaxed">
+            <span data-it="Acconsento al trattamento dei miei dati personali per ricevere comunicazioni da Roter Italia S.r.l. relative al progetto ENERG. Ho letto l'"
+                  data-en="I consent to the processing of my personal data to receive communications from Roter Italia S.r.l. regarding the ENERG project. I have read the ">
+              Acconsento al trattamento dei miei dati personali per ricevere comunicazioni da Roter Italia S.r.l. relative al progetto ENERG. Ho letto l'</span><a href="privacy.html" target="_blank" class="text-primary underline" data-it="Informativa Privacy" data-en="Privacy Policy">Informativa Privacy</a>.
+          </span>
+        </label>
+
+        <p id="formError" class="text-red-400 text-xs text-center mt-4 hidden"></p>
+
+        <button onclick="submitForm()" id="submitBtn" class="cta w-full mt-6" style="padding:20px">
+          <span id="submitLabel" data-it="Rimani Aggiornato" data-en="Stay Updated">Rimani Aggiornato</span>
+          <span class="msymbol text-base" id="submitIcon">arrow_forward</span>
+        </button>
+      </div>
+
+      <div id="formSuccess" class="hidden text-center py-10 space-y-3">
+        <span class="msymbol text-primary" style="font-size:5rem">check_circle</span>
+        <h3 class="text-2xl font-black text-white" data-it="Grazie!" data-en="Thank you!">Grazie!</h3>
+        <p class="text-secondary text-sm" data-it="Ti terremo aggiornato sul progetto ENERG." data-en="We'll keep you updated on the ENERG project.">Ti terremo aggiornato sul progetto ENERG.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="px-5 py-10" style="background:#0e0e0e">
+  <div class="max-w-screen-xl mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+      <div class="space-y-2">
+        <div class="flex items-center gap-3">
+          <img src="assets/img/logo-forigo.png" alt="Forigo" class="h-6 w-auto"/>
+          <span class="text-zinc-700 font-thin text-lg">×</span>
+          <img src="assets/img/logo-energ.png" alt="ENERG" class="h-7 w-auto"/>
+        </div>
+        <p class="text-[10px] tracking-widest uppercase text-zinc-500" data-it="Un progetto Forigo Roter Italia" data-en="A Forigo Roter Italia project">Un progetto Forigo Roter Italia</p>
+      </div>
+      <div class="flex gap-5 flex-wrap">
+        <a href="privacy.html" class="text-[11px] tracking-widest uppercase text-zinc-400 hover:text-primary">Privacy Policy</a>
+        <a href="https://www.forigo.it" target="_blank" class="text-[11px] tracking-widest uppercase text-zinc-400 hover:text-primary" data-it="Sito Ufficiale" data-en="Official Website">Sito Ufficiale</a>
+      </div>
+    </div>
+    <div class="pt-6 text-center space-y-2" style="border-top:1px solid rgba(255,255,255,.05)">
+      <p class="text-[10px] text-zinc-500 tracking-widest uppercase">Roter Italia S.r.l. — Via Brennero Nord 9, 46035 Ostiglia (MN) — P.IVA 00777410234</p>
+      <p class="text-[10px] text-zinc-600 tracking-widest uppercase">© 2026 Forigo Roter Italia — All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ STICKY BOTTOM CTA (mobile) ═══ -->
+<a href="#registrati" id="stickyCta" class="sticky-cta">
+  <span class="msymbol" style="font-size:1.1rem">mail</span>
+  <span data-it="Rimani Aggiornato" data-en="Stay Updated">Rimani Aggiornato</span>
+</a>
+
+<script>
+const SICRM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyqITYoYnLga6NxI-ZXzrV2jriXh7Fz2iUFEwsyILmyXHPyW2PxtpPihLfSGf3yCLPM/exec';
+let currentLang = 'it';
+
+// SPLASH dismiss dopo 3.2s (skip su tap)
+(function(){
+  const splash = document.getElementById('splash');
+  if(!splash) return;
+  document.body.style.overflow = 'hidden';
+  const dismiss = () => {
+    splash.classList.add('gone');
+    document.body.style.overflow = '';
+    setTimeout(()=>splash.remove(), 900);
+  };
+  splash.addEventListener('click', dismiss);
+  setTimeout(dismiss, 3800);
+})();
+
+function setLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  ['btn-it','btn-it-desk'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.toggle('active',lang==='it');});
+  ['btn-en','btn-en-desk'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.toggle('active',lang==='en');});
+  document.querySelectorAll('[data-it][data-en]').forEach(el=>{
+    if(el.tagName==='OPTION'||!el.children.length||['SPAN','LABEL','A','H3','P'].includes(el.tagName)){
+      el.textContent = el.getAttribute('data-'+lang);
+    }
+  });
+  document.querySelectorAll('[data-placeholder-it][data-placeholder-en]').forEach(el=>{
+    el.placeholder = el.getAttribute('data-placeholder-'+lang);
+  });
+}
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>30);
+});
+
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+  const open = document.getElementById('mobileMenu').classList.contains('open');
+  document.getElementById('menuIcon').textContent = open ? 'close' : 'menu';
+}
+
+// Reveal on scroll
+const revealObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// Hide sticky CTA when form is in view
+const stickyCta = document.getElementById('stickyCta');
+const formSection = document.getElementById('registrati');
+const stickyObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ stickyCta.classList.toggle('hide', e.isIntersecting); });
+},{threshold:0.15});
+stickyObs.observe(formSection);
+
+async function submitForm(){
+  const err = document.getElementById('formError');
+  err.classList.add('hidden');
+  const name = document.getElementById('f_name').value.trim();
+  const email = document.getElementById('f_email').value.trim();
+  const company = document.getElementById('f_company').value.trim();
+  const privacy = document.getElementById('f_privacy').checked;
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  if(!name || !email || !company){
+    err.textContent = '⚠ ' + (currentLang==='it' ? 'Nome, azienda ed email sono obbligatori.' : 'Name, company and email are required.');
+    err.classList.remove('hidden'); return;
+  }
+  if(!emailOk){
+    err.textContent = '⚠ ' + (currentLang==='it' ? 'Email non valida.' : 'Invalid email.');
+    err.classList.remove('hidden'); return;
+  }
+  if(!privacy){
+    err.textContent = '⚠ ' + (currentLang==='it' ? 'Accetta l\'informativa privacy per continuare.' : 'Please accept the privacy policy.');
+    err.classList.remove('hidden'); return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  document.getElementById('submitLabel').textContent = currentLang==='it' ? 'Invio in corso...' : 'Sending...';
+  document.getElementById('submitIcon').textContent = 'hourglass_empty';
+  btn.disabled = true;
+
+  const payload = {
+    source:'ENERG_LANDING', lang:currentLang, timestamp:new Date().toISOString(),
+    name, company, email,
+    phone:document.getElementById('f_phone').value.trim(),
+    role:document.getElementById('f_role').value,
+    hectares:document.getElementById('f_hectares').value,
+    crop:document.getElementById('f_crop').value.trim(),
+    notes:document.getElementById('f_notes').value.trim(),
+    privacy:true, userAgent:navigator.userAgent
+  };
+
+  try{
+    await fetch(SICRM_ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(payload)
+    });
+    showSuccess();
+  }catch(e){
+    console.warn('[ENERG Lead] submit error', e, payload);
+    showSuccess(); // show success anyway — lead was at least attempted
+  }
+}
+
+function showSuccess(){
+  document.getElementById('formArea').classList.add('hidden');
+  const s = document.getElementById('formSuccess');
+  s.classList.remove('hidden');
+  s.querySelectorAll('[data-it][data-en]').forEach(el=>{
+    el.textContent = el.getAttribute('data-'+currentLang);
+  });
+  document.getElementById('registrati').scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>
